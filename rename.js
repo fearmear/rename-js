@@ -4,9 +4,15 @@ var _path = require('path')
 
 var fileMode, renameProcessorScript
 
-var from = process.argv[2]
-var to = process.argv[3]
 var cwd = process.argv[4] ? _path.resolve(process.argv[4]) : process.cwd();
+
+var configFile = JSON.parse(fs.readFileSync(_path.join(cwd, '.rename.json'), 'utf8'));
+if (configFile) {
+	console.log('using config file', configFile.from, configFile.to)
+}
+
+var from = configFile.from || process.argv[2]
+var to = configFile.to || process.argv[3]
 
 if(from === undefined || to === undefined){
 	console.log('[ERROR] arguments missed. see [https://github.com/peichao01/rename-js] for more infomation.')
